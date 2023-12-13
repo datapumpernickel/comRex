@@ -38,15 +38,14 @@ library(comRex)
 data <- cr_get_data(
   freq = "A",
   reporter = "DE",
-  partner = "GB",
+  partner = NULL,
   product = "2701",
   stat_procedure = NULL,
-  indicators = "VALUE_IN_EUR",
+  indicators = NULL,
   time = NULL,
   flow = "1",
   update = F, 
-  verbose = T
-)
+  verbose = T)
 ```
 
 ## Controlled vocabularies
