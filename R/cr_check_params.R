@@ -101,20 +101,34 @@ check_freq <- function(freq) {
 #' check_flowCode(NULL) # throws an error because at least one flow code must be provided
 #'
 #' @noRd
-check_flow <- function(flow) {
-  if(!is.null(flow)){
-    rlang::arg_match(
-      flow,
-      values = c('import', 'export'),
-      multiple = FALSE
-    )
+check_flow <- function(flow,
+                       update = FALSE,
+                       verbose = FALSE) {
+  # check that commodity_code code is not null
+  if (!is.null(flow)) {
+    flow <- as.character(flow)
 
+    # remove any white space from cmd codes provided
+    flow <- stringr::str_squish(flow)
 
-      flow <- stringr::str_replace_all(flow,
-                                                 '^import$', "1")
-      flow <- stringr::str_replace_all(flow,
-                                                 '^export$', "2")
+    # get the list of valid parameters from inst/extdata
+    valid_codes <-
+      cr_get_ref_table(dataset_id = "flow",
+                       update = update,
+                       verbose = verbose)$code
+
+    # if one of the codes is not in the list of valid codes
+    # send stop signal and list problems
+    if (!all(flow %in% valid_codes)) {
+      rlang::abort(paste0(
+        "The following flow codes you provided are invalid: ",
+        paste0(setdiff(flow, valid_codes), collapse = ", ")
+      ))
+    } else {
+      flow <- flow
+    }
   }
+
   return(flow)
 }
 
