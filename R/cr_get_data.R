@@ -7,7 +7,7 @@
 #' @export
 #' @returns A data.frame with trade data or, if `process = F`, a httr2 response object.
 
-ct_get_data <- function(freq,
+cr_get_data <- function(freq,
                         reporter,
                         partner,
                         stat_procedure,
@@ -30,19 +30,19 @@ ct_get_data <- function(freq,
     time = time,
     indicators = indicators,
     flow = flow,
-    update = update
+    update = update,
+    verbose = verbose
     )
 
   req <-
-    ct_build_request(params, verbose = verbose,
-                     primary_token = primary_token)
+    cr_build_request(params, verbose = verbose)
 
-  resp <- ct_perform_request(req,
+  resp <- cr_perform_request(req,
                              requests_per_second = requests_per_second,
                              verbose = verbose)
 
   if (process) {
-    result <- ct_process_response(resp, verbose = verbose,
+    result <- cr_process_response(resp, verbose = verbose,
                                   tidy_cols = tidy_cols)
     return(result)
   } else{
