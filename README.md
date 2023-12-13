@@ -7,49 +7,71 @@
 
 <!-- badges: end -->
 
-The goal of comRex is to …
+The goal of comRex is to provide a very simple wrapper for the new [SDMX
+API of
+Eurostat](https://wikis.ec.europa.eu/display/EUROSTATHELP/API+-+Detailed+guidelines+-+DS-+prefixed+datasets+from+Comext+database),
+specifically the Comext database, which is not yet covered in the
+wonderful [eurostat](https://github.com/rOpenGov/eurostat) package, nor
+in the [restatapi-package](https://github.com/eurostat/restatapi).
 
 ## Installation
 
 You can install the development version of comRex like so:
 
 ``` r
-# FILL THIS IN! HOW CAN PEOPLE INSTALL YOUR DEV PACKAGE?
+devtools::install_github("datapumpernickel/comRex")
 ```
 
-## Example
+The package is currenty only implementing access to the probably most
+commonly used dataset by Eurostat, which is “EU trade since 2002 by
+HS2-4-6 and CN8 (new content) (ds-059322)”. The methodology can be found
+here:
+<https://ec.europa.eu/eurostat/cache/metadata/en/ext_go_detail_sims.htm>
+
+## Usage
 
 This is a basic example which shows you how to solve a common problem:
 
 ``` r
 library(comRex)
-## basic example code
+
+data <- cr_get_data(
+  freq = "A",
+  reporter = "DE",
+  partner = "GB",
+  product = "2701",
+  stat_procedure = NULL,
+  indicators = "VALUE_IN_EUR",
+  time = NULL,
+  flow = "1",
+  update = F, 
+  verbose = T
+)
 ```
 
-What is special about using `README.Rmd` instead of just `README.md`?
-You can include R chunks like so:
+## Controlled vocabularies
+
+The respective arguments all have controllec vocabularies, which you can
+check by looking ab the argument in this functions:
 
 ``` r
-summary(cars)
+products <- cr_get_ref_table("product")
+
+valid_codes <- products$code
 ```
 
-    ##      speed           dist       
-    ##  Min.   : 4.0   Min.   :  2.00  
-    ##  1st Qu.:12.0   1st Qu.: 26.00  
-    ##  Median :15.0   Median : 36.00  
-    ##  Mean   :15.4   Mean   : 42.98  
-    ##  3rd Qu.:19.0   3rd Qu.: 56.00  
-    ##  Max.   :25.0   Max.   :120.00
+In all cases, the variable `code` contains the valid codes, whereas
+there is descriptions, which you can later merge back to the dataset, to
+get a more nicely formatted dataset.
 
-You’ll still need to render `README.Rmd` regularly, to keep `README.md`
-up-to-date. `devtools::build_readme()` is handy for this. You could also
-use GitHub Actions to re-render `README.Rmd` every time you push. An
-example workflow can be found here:
-<https://github.com/r-lib/actions/tree/v1/examples>.
+If you leave an argument on `NULL`, all possible values will be
+returned.
 
-You can also embed plots, for example:
+This is under development, but most likely will only be used as is to
+get quick access to larger amounts of data.
 
-![](README_files/figure-gfm/pressure-1.png)<!-- -->
+## Asychronous evaluation
 
-In that case, don’t forget to commit and push the resulting figure
-files, so they display on GitHub and CRAN.
+Comext might sometimes not return the data, but tell you that it will be
+provided asynchroniously, in that case, you need to execute the request
+again after some time. This still needs to be implemented properly.
