@@ -11,8 +11,9 @@ The goal of comRex is to provide a very simple wrapper for the new [SDMX
 API of
 Eurostat](https://wikis.ec.europa.eu/display/EUROSTATHELP/API+-+Detailed+guidelines+-+DS-+prefixed+datasets+from+Comext+database),
 specifically the Comext database, which is not yet covered in the
-wonderful [eurostat](https://github.com/rOpenGov/eurostat) package, nor
-in the [restatapi-package](https://github.com/eurostat/restatapi).
+wonderful [eurostat](https://github.com/rOpenGov/eurostat)-package
+package, nor in the
+[restatapi](https://github.com/eurostat/restatapi)-package.
 
 ## Installation
 

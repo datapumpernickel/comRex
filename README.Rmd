@@ -10,7 +10,7 @@ output: github_document
 <!-- badges: start -->
 <!-- badges: end -->
 
-The goal of comRex is to provide a very simple wrapper for the new [SDMX API of Eurostat](https://wikis.ec.europa.eu/display/EUROSTATHELP/API+-+Detailed+guidelines+-+DS-+prefixed+datasets+from+Comext+database), specifically the Comext database, which is not yet covered in the wonderful [eurostat](https://github.com/rOpenGov/eurostat) package, nor in the [restatapi-package](https://github.com/eurostat/restatapi). 
+The goal of comRex is to provide a very simple wrapper for the new [SDMX API of Eurostat](https://wikis.ec.europa.eu/display/EUROSTATHELP/API+-+Detailed+guidelines+-+DS-+prefixed+datasets+from+Comext+database), specifically the Comext database, which is not yet covered in the wonderful [eurostat](https://github.com/rOpenGov/eurostat)-package package, nor in the [restatapi](https://github.com/eurostat/restatapi)-package. 
 
 ## Installation
 
@@ -18,7 +18,6 @@ You can install the development version of comRex like so:
 
 ``` r
 devtools::install_github("datapumpernickel/comRex")
-
 ```
 
 The package is currenty only implementing access to the probably most commonly used dataset by Eurostat, which is "EU trade since 2002 by HS2-4-6 and CN8 (new content) (ds-059322)". The methodology can be found here: https://ec.europa.eu/eurostat/cache/metadata/en/ext_go_detail_sims.htm 
