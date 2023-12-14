@@ -12,8 +12,9 @@ cr_perform_request <- function(req, requests_per_second, verbose = FALSE) {
 
 
   resp <- req |>
+    httr2::req_error(body = error_body) |>
     httr2::req_throttle(rate = requests_per_second) |>
-    httr2::req_retry(max_tries = 2) |>
+    httr2::req_retry(max_tries = 20, backoff = backoff, is_transient = is_transient) |>
     httr2::req_perform()
 
   if (verbose) {
@@ -22,3 +23,26 @@ cr_perform_request <- function(req, requests_per_second, verbose = FALSE) {
 
   return(resp)
 }
+
+error_body <- function(resp) {
+  if(resp$status_code==413){
+
+    if(httr2::resp_status(resp) == 413 &&
+       !grepl("ASYNCHRONOUS",httr2::resp_body_json(resp)$error[[1]]$label)){
+      cli::cli_inform(c("!" =httr2::resp_body_json(resp)$error[[1]]$label,
+                        "i" = "Try adding more parameters to reduce the size of your request"))
+    }
+
+  }
+
+}
+
+is_transient <- function(resp) {
+  httr2::resp_status(resp) == 413 &&
+    grepl("ASYNCHRONOUS",httr2::resp_body_json(resp)$error[[1]]$label)
+}
+
+backoff <- function(attempts){
+  attempts*30
+}
+
