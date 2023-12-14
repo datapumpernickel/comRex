@@ -44,7 +44,7 @@ cr_check_params <- function(freq,
     cli::cli_inform(c("v" = "Checked validity of time."))
   }
 
-  stat_procedure <- check_stat_procedure(stat_procedure)
+  stat_procedure <- check_stat_procedure(stat_procedure, update = update, verbose = verbose)
   if (verbose) {
     cli::cli_inform(c("v" = "Checked validity of stat_procedure"))
   }
@@ -325,7 +325,7 @@ check_stat_procedure <- function(stat_procedure, update, verbose) {
 
 
   if (!is.null(stat_procedure)) {
-    stat_procedure <- as.characterstat_procedure
+    stat_procedure <- as.character(stat_procedure)
 
     stat_procedure_codes <- cr_get_ref_table(dataset_id = 'stat_procedure',
                                       update = update,
