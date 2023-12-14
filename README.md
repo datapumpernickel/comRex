@@ -72,5 +72,9 @@ get quick access to larger amounts of data.
 ## Asychronous evaluation
 
 Comext might sometimes not return the data, but tell you that it will be
-provided asynchroniously, in that case, you need to execute the request
-again after some time. This still needs to be implemented properly.
+provided asynchroniously, in that case, the package will backoff for 30
+seconds and for each additional attempt wait an additional 30 seconds.
+So after the first time 30 seconds, then 60, then 90 and so on. When you
+chain a lot of calls into one, you might want to think about just making
+all the calls at once and then returning at a later time. This is still
+not properly implemented.
