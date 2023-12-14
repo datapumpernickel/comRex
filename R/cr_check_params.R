@@ -20,7 +20,7 @@ cr_check_params <- function(freq,
 
   product <- check_product(product)
   if (verbose) {
-    cli::cli_inform(c("v" = "Checked validity of produt"))
+    cli::cli_inform(c("v" = "Checked validity of product"))
   }
 
   flow <- check_flow(flow)
