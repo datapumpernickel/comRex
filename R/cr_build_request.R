@@ -3,7 +3,8 @@
 #' @returns a httr2 request object
 #' @inheritParams cr_get_data
 cr_build_request <- function(params,
-                             verbose = FALSE) {
+                             verbose = FALSE,
+                             ds_id) {
 
   params_full <- c()
   for(name in names(params)){
@@ -20,7 +21,7 @@ cr_build_request <- function(params,
 
 
   res <-
-    httr2::request("https://ec.europa.eu/eurostat/api/comext/dissemination/statistics/1.0/data/ds-059322/") |>
+    httr2::request(glue::glue("https://ec.europa.eu/eurostat/api/comext/dissemination/statistics/1.0/data/ds-{ds_id}/")) |>
     httr2::req_url_query(!!!params_full)
 
   if(stringr::str_length(res$url)>4095){

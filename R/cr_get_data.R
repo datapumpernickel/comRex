@@ -1,6 +1,10 @@
 #' Get trade data from the Comex API
 #'
 #' This function will get Comex data from the new API.
+#'  @param ds_id This will let you define which dataset you want to query.
+#'  Most likely you want: 045409, as it is the standard trade dataset. Check
+#'  `https://ec.europa.eu/eurostat/api/comext/dissemination/sdmx/2.1/dataflow/ESTAT/all` for all available datasets.
+#'
 #'
 #' @details
 #'
@@ -10,7 +14,6 @@
 cr_get_data <- function(freq,
                         reporter,
                         partner,
-                        stat_procedure,
                         product,
                         time,
                         indicators,
@@ -19,13 +22,13 @@ cr_get_data <- function(freq,
                         tidy_cols = TRUE,
                         verbose = FALSE,
                         update = T,
-                        requests_per_second = 10 / 60) {
+                        requests_per_second = 10 / 60,
+                        ds_id) {
   ## compile codes
   params <- cr_check_params(
     freq = freq,
     reporter = reporter,
     partner = partner,
-    stat_procedure = stat_procedure,
     product = product,
     time = time,
     indicators = indicators,
@@ -35,7 +38,7 @@ cr_get_data <- function(freq,
     )
 
   req <-
-    cr_build_request(params, verbose = verbose)
+    cr_build_request(params,ds_id, verbose = verbose)
 
   resp <- cr_perform_request(req,
                              requests_per_second = requests_per_second,

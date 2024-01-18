@@ -8,7 +8,6 @@ cr_get_data(
   freq,
   reporter,
   partner,
-  stat_procedure,
   product,
   time,
   indicators,
@@ -17,7 +16,8 @@ cr_get_data(
   tidy_cols = TRUE,
   verbose = FALSE,
   update = T,
-  requests_per_second = 10/60
+  requests_per_second = 10/60,
+  ds_id
 )
 }
 \value{
@@ -25,4 +25,7 @@ A data.frame with trade data or, if \code{process = F}, a httr2 response object.
 }
 \description{
 This function will get Comex data from the new API.
+@param ds_id This will let you define which dataset you want to query.
+Most likely you want: 045409, as it is the standard trade dataset. Check
+\verb{https://ec.europa.eu/eurostat/api/comext/dissemination/sdmx/2.1/dataflow/ESTAT/all} for all available datasets.
 }

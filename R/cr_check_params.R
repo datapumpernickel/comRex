@@ -4,7 +4,6 @@
 cr_check_params <- function(freq,
                             reporter,
                             partner,
-                            stat_procedure,
                             product,
                             time,
                             indicators,
@@ -44,10 +43,6 @@ cr_check_params <- function(freq,
     cli::cli_inform(c("v" = "Checked validity of time."))
   }
 
-  stat_procedure <- check_stat_procedure(stat_procedure, update = update, verbose = verbose)
-  if (verbose) {
-    cli::cli_inform(c("v" = "Checked validity of stat_procedure"))
-  }
 
   indicators <- check_indicators(indicators, update, verbose)
   if (verbose) {
@@ -57,7 +52,6 @@ cr_check_params <- function(freq,
   params <- list(freq = freq,
                       reporter = reporter,
                       partner = partner,
-                      stat_procedure = stat_procedure,
                       product = product,
                       time = time,
                       indicators = indicators,

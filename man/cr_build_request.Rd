@@ -4,7 +4,7 @@
 \alias{cr_build_request}
 \title{Build a valid request object from the checked parameters}
 \usage{
-cr_build_request(params, verbose = FALSE)
+cr_build_request(params, verbose = FALSE, ds_id)
 }
 \value{
 a httr2 request object

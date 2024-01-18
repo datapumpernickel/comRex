@@ -39,12 +39,12 @@ data <- cr_get_data(
   reporter = "DE",
   partner = NULL,
   product = "2701",
-  stat_procedure = NULL,
   indicators = NULL,
   time = NULL,
   flow = "1",
   update = F, 
-  verbose = T)
+  verbose = T,
+  ds_id="045409")
 ```
 
 ## Controlled vocabularies
