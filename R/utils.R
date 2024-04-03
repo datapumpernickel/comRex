@@ -93,7 +93,7 @@ cr_get_ref_table <- function(dataset_id, update = FALSE, verbose = FALSE) {
 #' @noRd
 cr_download_ref_table <- function(dataset_id) {
 
-  response <- httr2::request('https://ec.europa.eu/eurostat/search-api/datasets/ds-059322/languages/en') |> # nolint
+  response <- httr2::request('https://ec.europa.eu/eurostat/search-api/datasets/ds-045409/languages/en') |> # nolint
     httr2::req_perform()
 
   last_modified <- response |>
