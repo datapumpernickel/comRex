@@ -93,6 +93,18 @@ cr_get_ref_table <- function(dataset_id, update = FALSE, verbose = FALSE) {
 #' @noRd
 cr_download_ref_table <- function(dataset_id) {
 
+  dataset_id_query <- dataset_id
+
+  valid_codes <- dplyr::tribble(~dataset_id,~description_parameter,
+    "flow" , "FLOW",
+    "freq" ,"Frequency",
+    "indicators" ,"INDICATORS",
+    "partner" ,"PARTNER",
+    "product","PRODUCT",
+    "reporter","REPORTER",
+    "time","Period of time"
+  )
+
   response <- httr2::request('https://ec.europa.eu/eurostat/search-api/datasets/ds-045409/languages/en') |> # nolint
     httr2::req_perform()
 
@@ -102,18 +114,36 @@ cr_download_ref_table <- function(dataset_id) {
     as.POSIXct( format="%d/%m/%Y %H:%M:%S")
 
 
+
   list_of_datasets <- response |>
     httr2::resp_body_json(simplifyVector = T) |>
     purrr::pluck("dimensions") |>
     poorman::group_split(code) |>
-    purrr::map_dfr(function(.x){
-      full <- .x$positions[[1]] |>
-        poorman::rename(code =1, description =2) |>
-        poorman::mutate(parameter = .x$code,description_parameter = .x$description)
+    purrr::map_dfr(function(.x) {
+      if (length(.x$positions) == 1) {
+        full <- .x$positions[[1]] |>
+          poorman::rename(code = 1, description = 2) |>
+          poorman::mutate(parameter = .x$code,
+                          description_parameter = .x$description)
+      } else {
+        full <-
+          purrr::pmap_dfr(list(
+            positions = .x$positions,
+            description_data = .x$description,
+            code_descr = .x$code
+          ),
+          function(positions, description_data, code_descr) {
+            positions |>
+              poorman::rename(code = 1, description = 2) |>
+              poorman::mutate(parameter = code_descr,
+                              description_parameter = description_data)
+          })
+      }
+
     }) |>
-    poorman::mutate(last_modified = last_modified,
-                    dataset_id = tolower(parameter)) |>
-    poorman::filter(dataset_id %in% dataset_id)
+    poorman::mutate(last_modified = last_modified) |>
+    poorman::left_join(valid_codes) |>
+    poorman::filter(dataset_id %in% dataset_id_query)
 
     return(list_of_datasets)
 }

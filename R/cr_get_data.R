@@ -23,7 +23,8 @@ cr_get_data <- function(freq,
                         verbose = FALSE,
                         update = T,
                         requests_per_second = 10 / 60,
-                        ds_id) {
+                        ds_id = "045409" ) {
+
   ## compile codes
   params <- cr_check_params(
     freq = freq,
